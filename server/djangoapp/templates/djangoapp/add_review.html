@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+
+</head>
+    <body>
+    <!--Add review form here -->
+    <div class="container-sm d-flex align-items-center flex-column">
+        <a class="navbar-brand text-uppercase display-1 font-weight-bold" style="font-size: 40px; color: #696969" href="/djangoapp/">Best cars</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="card w-50" style="min-width: 1200px">
+            <form method="POST" action="/djangoapp/dealer/{{dealer.id}}/review/">
+                {% csrf_token %}
+                <h1 class="text-center m-2" for="add-review">Add a review about {{dealer.full_name}}</h1>
+                <h5 class="ml-4">Enter the review content:</h5>
+                <div class="form-group mx-4 my-2">
+                    <textarea type="text" class="form-control" style="height: 100px" placeholder="Type here..." name="content" required></textarea>
+                </div>
+                <div class="form-group mx-4 my-2">
+                    <input type="checkbox" onclick="togglePurchase()" placeholder="Password" name="purchase_check">
+                    Has purchased the car from {{dealer.full_name}}? (select purchased car information below if checked)
+                </div>
+                <div id="purchase-check" style="display: none">
+                    <div class="form-group mx-4 my-2">
+                        <h5>Select your car (model-make-year):</h5>
+                        <select name="car" id="car" class="form-select" required>
+                            {% for car in cars %}
+                                <option selected value={{car.id}}>{{car.name}}-{{car.car_make.name}}-{{ car.year|date:"Y" }}</option>
+                            {% endfor %} 
+                       </select>
+                    </div>
+                    <div class="form-group mx-4 my-2">
+                        <h5>Select your purchase date:</h5>
+                        <input type="text" class="date-own form-control w-25" name="purchase_date" id="purchase_date">
+                    </div>
+                </div>
+                <div class="d-flex align-items-center flex-column m-4">
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </div>
+            </form>
+        </div>            
+    </div>
+    </body>
+
+    <script>
+        function togglePurchase() {
+            var check = document.getElementById("purchase-check");
+            if(check.style.display === "none") {
+                check.style.display = "block"
+            } else {
+                check.style.display = "none"
+            }
+        }
+    </script>
+</html>

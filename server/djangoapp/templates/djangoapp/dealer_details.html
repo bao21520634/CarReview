@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealership Review</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+    <body>
+
+    <!--Add a nav bar here -->
+    {% include 'navbar.html' %}
+    <!-- Add reviews as cards -->
+    {% if user.is_authenticated %}
+        <a href="review/" class="d-flex justify-content-center text-decoration-none mt-4 h4">Add review</a>
+        <div class="card-deck d-flex m-4 justify-content-center">
+            {% for review in reviews %}
+                <div class="card mt-4 ml-2" style="min-width: 240px; max-width: 240px">
+                    <div class="card-body">
+                        <img class="card-img-top" style="position: absolute; width: 24px; height: 24px; right: -10px; top: -10px" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" alt="emoji">
+                        <h5 class="card-title">
+                            {{ review.name }}
+                        </h5>
+                        <p class="card-text">
+                            {{ review.car_year }}
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">{{ review.review }}</small>
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1 class="text-center m-5">Sorry! You need to login to add review.</h1>
+    {% endif %}
+    </body>
+
+</html>
